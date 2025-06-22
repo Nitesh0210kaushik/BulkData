@@ -13,7 +13,6 @@ const runValidation = (req, res, next) => {
     next();
 };
 
-// Route to bulk insert records
 /**
  * @swagger
  * /records/bulk:
@@ -31,10 +30,8 @@ const runValidation = (req, res, next) => {
  *               properties:
  *                 name:
  *                   type: string
- *                   example: "John Doe"
  *                 email:
  *                   type: string
- *                   example: "john.doe@example.com"
  *     responses:
  *       201:
  *         description: Records inserted successfully
@@ -45,68 +42,114 @@ const runValidation = (req, res, next) => {
  */
 router.post('/bulk', recordController.bulkInsert);
 
-// Route to get all records
 /**
  * @swagger
  * /records/list:
  *   get:
  *     summary: Get all records
- *     description: Fetch all records from the database.
  *     responses:
  *       200:
  *         description: List of all records
- *       500:
- *         description: Server error
  */
 router.get('/list', recordController.getAllRecords);
 
-// Route to update a specific record by ID
 /**
  * @swagger
  * /records/update/{id}:
  *   put:
  *     summary: Update a record by ID
- *     description: Update a specific record based on the ID.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The ID of the record to update
  *         schema:
  *           type: string
  *       - in: body
  *         name: record
  *         required: true
- *         description: The record data to update
  *         schema:
  *           type: object
  *           properties:
  *             name:
  *               type: string
- *               example: "John Doe"
  *             email:
  *               type: string
- *               example: "john.doe@example.com"
  *     responses:
  *       200:
  *         description: Record updated successfully
- *       400:
- *         description: Invalid input data
- *       404:
- *         description: Record not found
- *       500:
- *         description: Server error
  */
 router.put('/update/:id', validateSingleUser, runValidation, recordController.updateOne);
 
-router.post('/search', recordController.search)
-router.get('/getActiveUser', recordController.countActiveUser)
+/**
+ * @swagger
+ * /records/search:
+ *   post:
+ *     summary: Search records
+ *     responses:
+ *       200:
+ *         description: Search results
+ */
+router.post('/search', recordController.search);
 
+/**
+ * @swagger
+ * /records/getActiveUser:
+ *   get:
+ *     summary: Get count of active users
+ *     responses:
+ *       200:
+ *         description: Number of active users
+ */
+router.get('/getActiveUser', recordController.countActiveUser);
 
+/**
+ * @swagger
+ * /records/signup:
+ *   post:
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created
+ *       400:
+ *         description: Validation error
+ */
+router.post('/signup', validateSingleUser, recordController.signup);
 
+/**
+ * @swagger
+ * /records/contactMe:
+ *   post:
+ *     summary: Contact form submission
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               subject:
+ *                 type: string
+ *               message:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Message submitted
+ */
+router.post('/contactMe', recordController.contactMe);
 
-router.post('/signup', validateSingleUser, recordController.signup)
-
-
-router.post('/contactMe', recordController.contactMe)
 module.exports = router;
