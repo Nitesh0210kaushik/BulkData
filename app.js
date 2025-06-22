@@ -1,23 +1,13 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const app = express();
 
-// ✅ CORS setup
-app.use(cors({
-    origin: '*', // Replace * with frontend origin in production
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-}));
-app.options('*', cors());
-
-// ✅ Parse JSON
+// CORS setup
+app.use(cors());
 app.use(express.json());
 
-// ✅ Routes
+// Contact route
 const recordRoutes = require('./routes/record.routes');
-app.use('/records', recordRoutes);
-
-
+app.use('/records', recordRoutes); // You’ll use /records/contactMe
 
 module.exports = app;
