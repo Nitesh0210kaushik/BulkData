@@ -18,8 +18,8 @@ app.use(express.json());
 const recordRoutes = require('./routes/record.routes');
 app.use('/records', recordRoutes);
 
-// ✅ Swagger
-const setupSwagger = require('./swagger');
-setupSwagger(app);
+// // ✅ Swagger
+// const setupSwagger = require('./swagger');
+// setupSwagger(app);
 
 module.exports = app;
