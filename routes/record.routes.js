@@ -13,143 +13,25 @@ const runValidation = (req, res, next) => {
     next();
 };
 
-/**
- * @swagger
- * /records/bulk:
- *   post:
- *     summary: Bulk insert records
- *     description: Bulk insert multiple records at once.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: array
- *             items:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                 email:
- *                   type: string
- *     responses:
- *       201:
- *         description: Records inserted successfully
- *       400:
- *         description: Invalid input data
- *       500:
- *         description: Server error
- */
+// Bulk insert records
 router.post('/bulk', recordController.bulkInsert);
 
-/**
- * @swagger
- * /records/list:
- *   get:
- *     summary: Get all records
- *     responses:
- *       200:
- *         description: List of all records
- */
+// Get all records
 router.get('/list', recordController.getAllRecords);
 
-/**
- * @swagger
- * /records/update/{id}:
- *   put:
- *     summary: Update a record by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *       - in: body
- *         name: record
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             email:
- *               type: string
- *     responses:
- *       200:
- *         description: Record updated successfully
- */
+// Update a specific record by ID
 router.put('/update/:id', validateSingleUser, runValidation, recordController.updateOne);
 
-/**
- * @swagger
- * /records/search:
- *   post:
- *     summary: Search records
- *     responses:
- *       200:
- *         description: Search results
- */
+// Search records
 router.post('/search', recordController.search);
 
-/**
- * @swagger
- * /records/getActiveUser:
- *   get:
- *     summary: Get count of active users
- *     responses:
- *       200:
- *         description: Number of active users
- */
+// Get count of active users
 router.get('/getActiveUser', recordController.countActiveUser);
 
-/**
- * @swagger
- * /records/signup:
- *   post:
- *     summary: Register a new user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *     responses:
- *       201:
- *         description: User created
- *       400:
- *         description: Validation error
- */
+// Register a new user
 router.post('/signup', validateSingleUser, recordController.signup);
 
-/**
- * @swagger
- * /records/contactMe:
- *   post:
- *     summary: Contact form submission
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               subject:
- *                 type: string
- *               message:
- *                 type: string
- *     responses:
- *       200:
- *         description: Message submitted
- */
+// Contact form submission
 router.post('/contactMe', recordController.contactMe);
 
 module.exports = router;
